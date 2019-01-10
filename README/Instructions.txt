@@ -1,0 +1,25 @@
+RUNNING THE SCRIPTS
+
+Below are the instructions on how to run the model fitting for the models used in Glaze et al. 2018 
+
+
+1) All of the model scripts are found in ../Triangles_Task_model_code/Models/ Go to this folder and modify line 16 of "getDataInfo.m" by putting in the correct directory for your computer
+
+2) All of the data files for this paper are contained in the Data/ folder. See README in that section to get breakdown of the data structures
+
+3) The models and fitting routines are found in the Models/ folder. The naming conventions are explained the that section's README.md file.
+
+4) To fit a model to data, run the appropriate "analyze_everyone_2AFC_XX" file, where XX identifies the model you want to fit. As long as the "getDataInfo.m" has the path corrected, this should run.
+
+5) Each "analyze" file returns a "paramstruct_" structure with all of the parameter. It is organized as follows:
+	- varnms: parameter names
+	- params0: initial parameters for the fitting
+	- ub: parameter upper bounds
+	- lb: parameter lower bounds
+	- free: which parameters should be considered free(1) and which considered fixed (0)
+	- params: parameters for each subject
+	- LL: log likelihood
+	
+6) Note that the parameters names don't always match the ones in the paper. I've included notes in each "analyze" file that doesn't have crossval, sim or paramdep at the end to try and clear things up.
+
+Any questions email Alex Filipowicz - alsfilip@gmail.com
