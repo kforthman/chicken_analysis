@@ -137,6 +137,9 @@ for j = 2:N
     end
 end
 
+session_1 = (sigma == sigma(1));
+session_2 = ~session_1;
+
 % Hset: Set of hazard rates for the current session (either two hazard rates - 1000 trials each, or 5 hazard rates - 400 trials each)
 % Appears to not be needed
 
@@ -153,7 +156,7 @@ block_num = table2array(data(:,'block_num'));
 for j = 1:6
 session = block_num == block_order(j);
 
-datastruct{j} = struct('ID', id, 'trial', trial, 'block', block_order(j), 'N', sum(session), 'sigma', Sset(j), 'muall', muall, 'X', X(session, :), ...
+datastruct{j} = struct('ID', id, 'tri'block', block_order(j), 'N', sum(session), 'sigma', Sset(j), 'muall', muall, 'X', X(session, :), ...
     'pred', pred(session), 'muinds', muinds(session), 'rt', rt(session), 'H', H(session), ...
     'signaled', signaled(session), 'cp', cp(session), 'r', r(session),'Hset', Hset(j));
 end

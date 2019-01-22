@@ -59,7 +59,7 @@ for i = 1:length(subjids)
         
         for j = 1:6
             js = num2str(j);
-            eval(['dataT1B' js '= dataT1{' js '};'])
+            eval(['dataT1B' js '= dataT1{' js '}'])
         end
         
         filename = [pathFrom 'wave2-CT-' subjids{i} '-T2.csv'];
@@ -67,7 +67,7 @@ for i = 1:length(subjids)
         
         for j = 1:6
             js = num2str(j);
-            eval(['dataT2B' js '= dataT2{' js '};'])
+            eval(['dataT2B' js '= dataT2{' js '}']);
         end
         
         save([pathTo '/Raw/data_' subjids{i} '.mat'], ...

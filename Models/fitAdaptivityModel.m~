@@ -122,9 +122,6 @@ for ss = 1:num_subjects
     ID{this.index}     = data.ID;
     trial{this.index}  = data.trial;
     block{this.index}  = num2str(data.block);
-    H_true{this.index} = data.Hset;
-    sigma{this.index}  = data.sigma;
-    pct{this.index}    = (ctmp(ii,2)/ctmp(ii,3))*100;
     end
     
 
@@ -161,11 +158,8 @@ end
 ID = ID.';
 trial = trial.';
 block = block.';
-H_true = H_true.';
-sigma = sigma.';
-pct = pct.';
 
-finalTable = table(ID,trial,block,sigma,H_true,H_default,m_H,noise_in_DV,lapse_rate,LLRs,pct);
+finalTable = table(ID,trial,block,H_default,m_H,noise_in_DV,lapse_rate,LLRs);
 correctTable = table(subID,pcts_33,pcts_140);
 writetable(finalTable, fullfile(analysis_data_dir, filename1))
 writetable(correctTable, fullfile(analysis_data_dir, filename3))

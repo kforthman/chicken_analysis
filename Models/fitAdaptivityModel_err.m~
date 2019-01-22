@@ -20,28 +20,29 @@ J_default     = params(1);
 J_slope       = params(2);
 eta           = params(3);
 lapse         = params(4);
-evc           = 0;
+num_sessions  = size(session_data,1);
+evc           = zeros(num_sessions,1);
 
 % compute separately for each session
 
    % Subjective hazard is computed as a linear function of objective hazard,
    %    expressed as log-prior-odds (J)
-   J   = J_default + J_slope*session_data(:,4); %-kf-% (data.H(:,1)./(1-data.H(:,1)))
+   J   = J_default + J_slope*session_data{ii}(:,4); %-kf-% (data.H(:,1)./(1-data.H(:,1)))
    Hvc = 1./(1+exp(-J));
    
    % get posteriors
    %-kf-% Calls a function written in C. Works on any Mac.
    %-kf-% q1 = (1-H)/H + exp(-L_(n-1))
    %-kf-% q2 = (1-H)/H + exp(+L_(n-1))
-   [q1,q2] = dsprt_mixed_Hvc2(session_data(:,1), ...
-      session_data(:,2), Hvc, session_data(:,5));
+   [q1,q2] = dsprt_mixed_Hvc2(session_data{ii}(:,1), ...
+      session_data{ii}(:,2), Hvc, session_data{ii}(:,5));
    
    % L = Log-posterior-odds
    L = log(q1)-log(q2);
    
    % LogLR from predicted and actual choices
    choicehat = lapse+(1-2*lapse)./(1+exp(-L/eta));
-   choice    = session_data(:,3);
-   evc   = -sum((1-choice).*log(1-choicehat)) - sum(choice.*log(choicehat));
+   choice    = session_data{ii}(:,3);
+   evc(ii)   = -sum((1-choice).*log(1-choicehat)) - sum(choice.*log(choicehat));
 
 err_ = evc;
