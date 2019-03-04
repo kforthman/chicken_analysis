@@ -8,7 +8,7 @@ setwd("~/Dropbox (LIBR)/02_Projects/Chicken Task/Chicken_code")
 # Read in the data.
 data <- read.csv("Data/Analysis/adaptivityModelFits.csv")
 # Change percent to decimal
-data[,11] = data[,11]/100
+data[,'pct'] = data[,'pct']/100
 
 # Now load in the pattern information
 pat_data <- read.csv("Data/blockPatterns.csv")
@@ -26,11 +26,11 @@ pattern <- c("turquoise3", "seagreen4", "slateblue", "maroon")
 
 
 # Block-wise subjective (fit) H vs objective H. Solid line is a least-squares fit. 
-#png(paste0("Figures/H_Default_Comparison_to_H_true.png"))
-plot(data$H_true, data$H_default, xlim = c(0,1), ylim = c(0,1))
-tru2def_fit <- lm(data$H_default~data$H_true)
+png(paste0("Figures/H_Default_Comparison_to_H_true.png"))
+plot(data$H_true, data$H_subjective, xlim = c(0,1), ylim = c(0,1))
+tru2def_fit <- lm(data$H_subjective~data$H_true)
 abline(tru2def_fit)
-#dev.off()
+dev.off()
 
 t_cat <- levels(unique(data$trial))
 sig_cat <- unique(data$sigma)
@@ -38,26 +38,27 @@ for(i in 1:length(t_cat)){
   for(j in 1:length(sig_cat)){
     index <- which(data$trial == t_cat[i] & data$sigma == sig_cat[j])
     png(paste0("Figures/H_Default_Comparison_to_H_true-", t_cat[i], "-", sig_cat[j],".png"))
-    plot(jitter(data$H_true[index]), data$H_default[index], xlim = c(0,1), ylim = c(0,1), 
+    plot(jitter(data$H_true[index]), data$H_subjective[index], xlim = c(0,1), ylim = c(0,1), 
          main = paste0("Trial: ", t_cat[i], ", Sigma: ", sig_cat[j]),
          xlab = "True H",
          ylab = "Subjective H")
-    tru2def_fit <- lm(data$H_default[index]~data$H_true[index])
+    tru2def_fit <- lm(data$H_subjective[index]~data$H_true[index])
     abline(tru2def_fit)
+    #text(.9,0,paste0("Adj R2 = ", round(signif(summary(tru2def_fit)$adj.r.squared, 5), 3)))
     dev.off()
   }
 }
 
 # Block-wise subjective (fit) H vs objective H.
 id <- levels(unique(data$ID))
-#png(paste0("Figures/H_Default_Comparison_to_H_true-spaghetti.png"))
-plot(data$H_true, data$H_default, xlim = c(0,1), ylim = c(0,1))
+png(paste0("Figures/H_Default_Comparison_to_H_true-spaghetti.png"))
+plot(data$H_true, data$H_subjective, xlim = c(0,1), ylim = c(0,1))
 for(i in 1:length(id)){
   index <- which(data$ID == id[i])
-  tru2def_fit <- lm(data$H_default[index]~data$H_true[index])
+  tru2def_fit <- lm(data$H_subjective[index]~data$H_true[index])
   abline(tru2def_fit, col = randomColor(1))
 }
-#dev.off()
+dev.off()
 
 # The following plots show the default H compared at T1 and T2. The wheels marking each point indicate the percent correct. The length of the + spokes indicate percent correct at T1 and the length of the x spokes indicate percent correct at T2. If the spokes reach the edge of the wheel, that means the participant had ~100% accuracy. The pink line is the least-squares fit. The dashed line is just a 45 degree line.
 for(i in 1:6){
@@ -72,8 +73,8 @@ for(i in 1:6){
   gg <- ggplot(fit$model, aes_string(x = names(fit$model)[2], y = names(fit$model)[1])) + 
     stat_smooth(method = "lm", se = F, colour = "pink") + # Linear regression
     geom_abline(intercept = 0, colour = "slateblue4", linetype = "dashed") + # 45 degree line
-    geom_point(colour = pattern[pat_T1[,'pattern']], size = data[t1,11]*4, pch = 3) + # wheels
-    geom_point(colour = pattern[pat_T1[,'pattern']], size = data[t2,11]*4, pch = 4) +
+    geom_point(colour = pattern[pat_T1[,'pattern']], size = data[t1,'pct']*4, pch = 3) + # wheels
+    geom_point(colour = pattern[pat_T1[,'pattern']], size = data[t2,'pct']*4, pch = 4) +
     geom_point(colour = pattern[pat_T1[,'pattern']], size = 6, pch = 1)+ scale_fill_continuous(guide = guide_legend()) +
     # geom_point(colour = rgb(data[t1,11], 0, data[t2,11]), pch = 16, size = 5) + #color
     labs(title = paste0("Block ", i, ": H = ", h[i], ", sigma = ", sig[i]),

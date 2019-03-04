@@ -115,10 +115,9 @@ for ss = 1:num_subjects
     
     % now... fit it
     this.index = (ss-1)*12+ii;
-    options = optimoptions(@fmincon,'Algorithm','interior-point','Display','off');
-    fits(this.index,:) = ...
-        fmincon(myFun, inits, [], [], [], [], lb, ub, [], options);
-    
+    [fits(this.index,:), LLRs(this.index)] = ...
+        fmincon(myFun, inits, [], [], [], [], lb, ub, []);
+    % optimoptions(@fmincon,'Algorithm','interior-point'));
     
     ID{this.index}     = data.ID;
     trial{this.index}  = data.trial;
@@ -161,8 +160,8 @@ H_true = H_true.';
 sigma = sigma.';
 pct = pct.';
 
-finalTable = table(ID,trial,block,sigma,H_true,H_subjective,noise_in_DV,lapse_rate,pct);
+finalTable = table(ID,trial,block,sigma,H_true,H_subjective,noise_in_DV,lapse_rate,LLRs,pct);
 correctTable = table(subID,pcts_33,pcts_140);
 writetable(finalTable, fullfile(analysis_data_dir, filename1))
 writetable(correctTable, fullfile(analysis_data_dir, filename3))
-save(fullfile(analysis_data_dir, filename2),'ID','trial','block','H_subjective','noise_in_DV','lapse_rate');
+save(fullfile(analysis_data_dir, filename2),'ID','trial','block','LLRs','H_subjective','noise_in_DV','lapse_rate');
