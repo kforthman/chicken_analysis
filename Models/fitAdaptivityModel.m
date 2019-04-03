@@ -51,7 +51,7 @@ pcts_140     = nan(num_subjects, 1);
 
 for ss = 1:num_subjects
     
-    disp(ss)
+    disp(['Participant ' num2str(ss)])
     
     % get the data file
     data_filename = fullfile(raw_data_dir, file_list{ss});
@@ -74,8 +74,10 @@ for ss = 1:num_subjects
         % get the appropriate data
         if ii<=6
             eval(['data=dataT1B' num2str(ii) ';'])
+            disp(['Participant ' num2str(ss) ', Session T1B' num2str(ii)])
         else
             eval(['data=dataT2B' num2str(ii-6) ';'])
+            disp(['Participant ' num2str(ss) ', Session T2B' num2str(ii-6)])
         end
         
         % useful stuff
@@ -115,7 +117,7 @@ for ss = 1:num_subjects
     
     % now... fit it
     this.index = (ss-1)*12+ii;
-    options = optimoptions(@fmincon,'Algorithm','interior-point','Display','off');
+    options = optimoptions(@fmincon,'Algorithm','interior-point');
     fits(this.index,:) = ...
         fmincon(myFun, inits, [], [], [], [], lb, ub, [], options);
     

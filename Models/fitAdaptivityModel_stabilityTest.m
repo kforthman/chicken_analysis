@@ -49,9 +49,13 @@ LLRs         = nan(num_subjects*num_sessions, 1);
 pcts_33      = nan(num_subjects, 1); % percent correct per sigma
 pcts_140     = nan(num_subjects, 1);
 
+for kk = 0:0.1:1
+    eval(['fits_' num2str(kk*10) '= nan(num_subjects*num_sessions, size(inits, 2))'])
+end
+
 for ss = 1:num_subjects
     
-    disp(ss)
+    disp(['Participant ' num2str(ss)])
     
     % get the data file
     data_filename = fullfile(raw_data_dir, file_list{ss});
@@ -74,8 +78,10 @@ for ss = 1:num_subjects
         % get the appropriate data
         if ii<=6
             eval(['data=dataT1B' num2str(ii) ';'])
+            disp(['Participant ' num2str(ss) ', Session T1B' num2str(ii)])
         else
             eval(['data=dataT2B' num2str(ii-6) ';'])
+            disp(['Participant ' num2str(ss) ', Session T2B' num2str(ii-6)])
         end
         
         % useful stuff
@@ -101,8 +107,8 @@ for ss = 1:num_subjects
             normpdf(data.X(:,1)-midpt, MU_DIST/2, data.sigma), ...
             normpdf(data.X(:,1)-midpt,-MU_DIST/2, data.sigma), ...
             double(data.pred==2));%, ... %-kf-% data.pred is the participant choice (1 for left, 2 for right) -> (0 for left, 1 for right)
-            %data.H(:,1), ...
-            %musgn);
+        %data.H(:,1), ...
+        %musgn);
         
         % save stuff to compute % correct per sigma
         ctmp(ii,:) = [ ...
@@ -110,24 +116,27 @@ for ss = 1:num_subjects
             sum(data.pred==data.muinds), ...
             size(data.pred,1)];
         
-            % do the fit for this subject
-    myFun = @(x)fitAdaptivityModel_err(x, session_data{ii});
-    
-    % now... fit it
-    this.index = (ss-1)*12+ii;
-    [fits(this.index,:), LLRs(this.index)] = ...
-        fmincon(myFun, inits, [], [], [], [], lb, ub, []);
-    % optimoptions(@fmincon,'Algorithm','interior-point'));
-    
-    ID{this.index}     = data.ID;
-    trial{this.index}  = data.trial;
-    block{this.index}  = num2str(data.block);
-    H_true{this.index} = data.Hset;
-    sigma{this.index}  = data.sigma;
-    pct{this.index}    = (ctmp(ii,2)/ctmp(ii,3))*100;
+        % do the fit for this subject
+        myFun = @(x)fitAdaptivityModel_err(x, session_data{ii});
+        
+        % now... fit it
+        this.index = (ss-1)*12+ii;
+        options = optimoptions(@fmincon,'Algorithm','interior-point');
+        for kk = 0:0.1:1
+            disp(kk)
+            inits   = [kk .2 .0025];
+            eval(['fits_' num2str(kk*10) '(this.index,:) = fmincon(myFun, inits, [], [], [], [], lb, ub, [], options);'])
+        end
+        
+        ID{this.index}     = data.ID;
+        trial{this.index}  = data.trial;
+        block{this.index}  = num2str(data.block);
+        H_true{this.index} = data.Hset;
+        sigma{this.index}  = data.sigma;
+        pct{this.index}    = (ctmp(ii,2)/ctmp(ii,3))*100;
     end
     
-
+    
     
     % compute overall accuracy per sigma
     Lsig = round(ctmp(:,1)) == SIGMAS(1);
@@ -141,16 +150,19 @@ for ss = 1:num_subjects
 end
 
 
+for kk = 0:0.1:1
+    ind = num2str(kk*10);
+    eval(['H_subjective_' ind ' = fits_' ind '(:,1);'])
+    eval(['noise_in_DV_' ind ' = fits_' ind '(:,2);'])
+    eval(['lapse_rate_' ind ' = fits_' ind '(:,3);'])
+end
 
-H_subjective = fits(:,1);
-noise_in_DV = fits(:,2);
-lapse_rate = fits(:,3);
 
 % Save it
 if nargin<1 || (nargin>=1 && ~ischar(filename))
-    filename1 = 'adaptivityModelFits.csv';
-    filename2 = 'adaptivityModelFits.mat';
-    filename3 = 'percentCorrect.csv';
+    filename1 = 'adaptivityModelFits_stabilityTest.csv';
+    filename2 = 'adaptivityModelFits_stabilityTest.mat';
+    filename3 = 'percentCorrect_stabilityTest.csv';
 end
 
 ID = ID.';
@@ -160,8 +172,12 @@ H_true = H_true.';
 sigma = sigma.';
 pct = pct.';
 
-finalTable = table(ID,trial,block,sigma,H_true,H_subjective,noise_in_DV,lapse_rate,LLRs,pct);
+finalTable = table(ID,trial,block,sigma,H_true,...
+    H_subjective_0,H_subjective_1,H_subjective_2,H_subjective_3,H_subjective_4,H_subjective_5,H_subjective_6,H_subjective_7,H_subjective_8,H_subjective_9,H_subjective_10,...
+    noise_in_DV_0, noise_in_DV_1 ,noise_in_DV_2 ,noise_in_DV_3 ,noise_in_DV_4 ,noise_in_DV_5 ,noise_in_DV_6 ,noise_in_DV_7 ,noise_in_DV_8 ,noise_in_DV_9 ,noise_in_DV_10 ,...
+    lapse_rate_0,  lapse_rate_1,  lapse_rate_2,  lapse_rate_3,  lapse_rate_4,  lapse_rate_5,  lapse_rate_6,  lapse_rate_7,  lapse_rate_8,  lapse_rate_9,  lapse_rate_10,   ...
+    pct);
 correctTable = table(subID,pcts_33,pcts_140);
-writetable(finalTable, fullfile(analysis_data_dir, filename1))
-writetable(correctTable, fullfile(analysis_data_dir, filename3))
-save(fullfile(analysis_data_dir, filename2),'ID','trial','block','LLRs','H_subjective','noise_in_DV','lapse_rate');
+%writetable(finalTable, fullfile(analysis_data_dir, filename1))
+%writetable(correctTable, fullfile(analysis_data_dir, filename3))
+%save(fullfile(analysis_data_dir, filename2),'ID','trial','block','H_subjective','noise_in_DV','lapse_rate');
