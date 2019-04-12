@@ -13,8 +13,7 @@ function [fileList_, analysisDataDir_, rawDataDir_, sessionsPerSubject_] = ...
 %
 
 %% SET DATA DIRECTORY HERE
-%dpath = '/Users/kclary/Dropbox (LIBR)/01_Projects/Chicken Task/Triangles_Task_model_code/'; %example for my computer
-dpath = '/Users/kclary/Dropbox (LIBR)/02_Projects/Chicken Task/Chicken_code/';
+dpath = '/Volumes/T1000/kforthman/Chicken Task/Chicken_code/';
 DATA_DIR          = fullfile(sprintf('%sData',dpath));
 ANALYSIS_DATA_DIR = fullfile(DATA_DIR, 'Analysis');
 RAW_DATA_DIR      = fullfile(DATA_DIR, 'Raw');
@@ -28,7 +27,6 @@ if (nargin < 1 || ~recompute) && ...
    load(fullfile(ANALYSIS_DATA_DIR, FILENAME), 'fileList_');
    
 else
-   
    %% OTHERWISE CHECK DATA FILES
    % get list in order they were used to generate model
    %  simulations

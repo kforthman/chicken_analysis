@@ -90,7 +90,7 @@ end
 % musgn: Signaled chicken from previous trial,
 % (neg => left, pos => right):
 musgn = sign(muall(muinds,1)-midpt);
-% If the true mean was not revealed at the end of the trial, musgn is set to 0.
+% If the correct chicken was not revealed at the end of the trial, musgn is set to 0.
 musgn(signaled==0) = 0;
 musgn = [0;musgn(1:end-1)];
 

@@ -1,5 +1,6 @@
-
-
+%
+%
+% Created by Katherine Forthman, 04/03/2019
 
 % Designate the file in which the data is located
 pathFrom = '/Volumes/T1000/BehavioralTasks/MTURK/ChickenTask/data/tasks/data_for_katie/';

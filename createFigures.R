@@ -3,7 +3,7 @@ library(randomcoloR)
 library(psych)
 
 # Set working directory
-setwd("~/Dropbox (LIBR)/02_Projects/Chicken Task/Chicken_code")
+setwd("/Volumes/T1000/Analysis/kforthman/Chicken Task/Chicken_code")
 
 # Read in the data.
 data <- read.csv("Data/Analysis/adaptivityModelFits.csv")
@@ -132,7 +132,7 @@ for(i in 1:6){
 }
 
 # Distribution of parameter estimates across subjects
-data <- read.csv("~/Dropbox (LIBR)/02_Projects/Chicken Task/Chicken_code/Data/Analysis/adaptivityModelFits.csv")
+data <- read.csv("Data/Analysis/adaptivityModelFits.csv")
 hist(as.matrix(data["noise_in_DV"]), breaks=30)
 hist(as.matrix(data["lapse_rate"]), breaks=30)
 hist(as.matrix(data["H_subjective"]))

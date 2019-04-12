@@ -3,29 +3,25 @@ function fitAdaptivityModel(filename)
 %
 % Fit testing data to the Adaptivity Model
 %
-% This takes <1 min on a MacBook Pro 2.8 GHz Intel Core i7
 %
-% Figure-generating code for
-%  Glaze CM, Filipowicz ALS, Kable JW, Balasubramanian V, and Gold JI
-%  "A bias-variance trade-off governs individual differences in on-line
-%     learning in an unpredictable environment"
-%
-% Altered so that pct (percent correct) is computed independently for each
-% value of sigma.
+% Altered so that pct (percent correct) and H estimates are computed independently for each
+% value of sigma. There is no parameter for learning rate.
 %
 % Edited by Katherine Forthman 08.20.2018
 
-%% Initialize values, params are:
-%-kf-% J denotes the log prior odds
+%% Initialize values, parameters are:
 %   1. H_subjective
-%   3. noise in the decision variable (DV)
-%   4. lapse rate
-MU_DIST = 150; %-kf-% Distance between each source
-SIGMAS  = round([33 140]); %-kf-% The standard deviation of the star distribution around triangle
-nsigmas = length(SIGMAS); %-kf-%
-ub      = [1 10 .5]; %-kf-% upper boundaries on parameter estimates
+%   2. noise in the decision variable (DV)
+%   3. lapse rate
+% These are the parameters that will be estimated using the optimization
+% function later in the program.
+%-kf-% J denotes the log prior odds. All instances of J have been converted to H.
+MU_DIST = 150; %-kf-% Distance between each source (in pixels)
+SIGMAS  = round([33 140]); %-kf-% The standard deviation of the star distribution around triangle (also pixels)
+nsigmas = length(SIGMAS);  %-kf-% The number of different sigma values
+ub      = [1 10 .5];       %-kf-% upper boundaries on parameter estimates
 lb      = [0 10e-8 10e-8]; %-kf-% lower boundaries on parameter estimates
-inits   = [0.5 .2 .0025]; %-kf-%  initial parameter estimates
+inits   = [0.5 .2 .0025];  %-kf-% initial parameter estimates
 
 %% Get information about data files
 %-kf-% The function getDataInfo() is called to download the following
@@ -38,11 +34,11 @@ subID = arrayfun(@(x) subsref(strsplit(file_list{x},{'.','_'}),struct('type','()
 
 %% Loop through the subjects
 num_subjects = length(file_list);
-%-kf-% The following empty objects are created for future use.
-%-kf-% fits := contains the parameter estimates for each subject?
+%-kf-% The following empty objects are created to be filled in the following loop.
+%-kf-% fits := contains the parameter estimates for each subject
 %-kf-% LLRs := The log likelihood ratio provided by the star position
-%(sensory evidence) for each participant.
-%-kf-% pcts := accuracy per sigma
+%               (sensory evidence) for each participant.
+%-kf-% pcts := percent correct
 num_sessions = 12;
 fits         = nan(num_subjects*num_sessions, size(inits, 2));
 LLRs         = nan(num_subjects*num_sessions, 1);
@@ -80,13 +76,12 @@ for ss = 1:num_subjects
             disp(['Participant ' num2str(ss) ', Session T2B' num2str(ii-6)])
         end
         
-        % useful stuff
         %-kf-% Center of screen (x coordinate):
         midpt = mean(data.muall(:,1));
         %-kf-% Signaled chicken from previous trial,
         %-kf-% (neg => left, pos => right):
         musgn = sign(data.muall(data.muinds,1)-midpt);
-        %-kf-% If the true mean was not revealed at the end of the trial, musgn is set to 0.
+        %-kf-% If the correct chicken was not revealed at the end of the trial, musgn is set to 0.
         musgn(data.signaled==0) = 0;
         
         musgn = [0;musgn(1:end-1)];

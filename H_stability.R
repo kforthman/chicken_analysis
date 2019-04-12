@@ -1,4 +1,4 @@
-data <- read.csv("~/Dropbox (LIBR)/02_Projects/Chicken Task/Chicken_code/Data/Analysis/adaptivityModelFits_stabilityTest.csv")
+data <- read.csv("/Volumes/T1000/Analysis/kforthman/Chicken_code/Data/Analysis/adaptivityModelFits_stabilityTest.csv")
 
 H_stability <- matrix(nrow = 0,ncol = 1)
 H_range <- matrix(nrow = 0,ncol = 1)
