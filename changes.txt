@@ -1,0 +1,23 @@
+## This version of the task was created way before the MTurk version so there are numerous things that differ.
+
+(1) This is the prediction version so subjects are asked to choose which chicken will lay the next egg.
+
+(2) The chickens are further apart so there is less overlap. 
+	Left Chicken Position is (x=-342, y=0), 
+	Right Chicken Position is (x=342, y=0)
+	Block definitions are as follows:
+	Block 1 -> Hrate=0.05, Sigma=150
+	Block 2 -> Hate=0.05, Sigma=200
+	Block 3 -> Hrate=0.2, Sigma=150
+	Block 4 -> Hrate=0.2, Sigma=200
+	Block 5 -> Hrate=0.95, Sigma=150
+	Block 6 -> Hrate=0.95, Sigma=200
+
+(3) Feedback is given every trial (there is a bar at the top showing their points progress but not the actual points)
+
+(4) Each subject gets either of the 3 patterns randomly. That pattern is the same for T1 and T2.
+The different patterns are just the different ordering of the blocks.
+
+Pattern 1: (http://brainworkout.paulus.libr.net/?task=chicken&pattern=1) ->  table134.txt
+Pattern 2: (http://brainworkout.paulus.libr.net/?task=chicken&pattern=2) -> table145.txt
+Pattern 3: (http://brainworkout.paulus.libr.net/?task=chicken&pattern=3) -> table4.txt
