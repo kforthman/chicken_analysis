@@ -47,7 +47,7 @@ main_location = strcmp(data.trial_type, 'main');
 N = sum(main_location);
 data = data(main_location,:);
 
-% signaled: whether the true mean was revealed or not at the end of each trial
+% signaled: whether the correct chicken was revealed or not at the end of each trial
 if strcmp(type, 'estimate')
     signaled = ones(N,1);
 elseif strcmp(type, 'predict')
@@ -69,11 +69,11 @@ muall = [str2num(header.chicken_left_x),str2num(header.chicken_left_y);...
 % midpt: The midpoint between the two chickens.
 midpt = mean(muall(:,1));
 
-% X: [x,y] coordinates of each star on each trial
+% X: [x,y] coordinates of each egg on each trial
 X = [data.egg_x_position, data.egg_y_position];
 
 
-% muinds: The actual triangle that generated the star (1 for left, 2 for right)
+% muinds: The actual chicken that generated the egg (1 for left, 2 for right)
 muinds = zeros(N,1);
 for j = 1:N
     if [data.response(j), data.result(j)] == [1,1]
