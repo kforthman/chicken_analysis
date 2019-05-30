@@ -13,10 +13,10 @@ function [fileList_, analysisDataDir_, rawDataDir_, sessionsPerSubject_] = ...
 %
 
 %% SET DATA DIRECTORY HERE
-dpath = '/Volumes/T1000/kforthman/Chicken Task/Chicken_code/';
+dpath = '/Volumes/T1000/Analysis/kforthman/Chicken Task/Chicken_code/';
 DATA_DIR          = fullfile(sprintf('%sData',dpath));
-ANALYSIS_DATA_DIR = fullfile(DATA_DIR, 'Analysis');
-RAW_DATA_DIR      = fullfile(DATA_DIR, 'Raw');
+ANALYSIS_DATA_DIR = fullfile(DATA_DIR, 'Simulated_Analysis');
+RAW_DATA_DIR      = fullfile(DATA_DIR, 'Simulated_Raw');
 FILENAME          = 'dataInfo.mat';
 
 %% possibly just load pre-computed list
@@ -42,7 +42,7 @@ else
    for ff = 1:num_files
       
       % concatenate path and filename
-      datafile = ['data_' subjids{ff} '.mat'];
+      datafile = [subjids{ff} '.mat'];
       fullname = fullfile(RAW_DATA_DIR, datafile);
       
       % check for data file

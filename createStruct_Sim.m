@@ -1,9 +1,10 @@
-function [datastruct] = createStruct_Sim(N, sigma, Htrue, Hsubj, index)
+function [datastruct] = createStruct_Sim(sigma, Htrue, Hsubj, index)
 % N: total trials for the session
 % Htrue: current hazard rate
 % sigma
 
 %---------------------------------------------------------------------------------------------------------
+N = 150;
 % muall: raw [x,y] coordinates of the two chickens (left and right). Center of the screen = left chicken X + ((right chicken X - left chicken X)/2)
 muall = [-75,0;75,0];
 
@@ -24,7 +25,7 @@ end
 x = zeros(N,1);
 y = zeros(N,1);
 for i = 1:N
-    if muinds(i) == 1
+    if muinds(i) == 2
         x(i) = random('Normal', muall(2,1), sigma);
         y(i) = random('Normal', muall(2,2), sigma);
     else
@@ -55,20 +56,33 @@ for n = 2:N
     l(n) = psi(n) + llr(n);
 end
 % pred: the participant's response.
-pred = (l < 0)+1; % for estimation task
-pred2 = (psi < 0)+1; % for prediction task
+pred = (l > 0)+1; % for estimation task
+pred2 = (psi > 0)+1; % for prediction task
 crct = (muinds == pred); % for estimation task
 crct2 = (muinds == pred2); % for prediction task
 
 % X: [x,y] coordinates of each egg on each trial
 X = [x, y];
 
-% Appears to not be needed
-datastruct = struct('N', N, 'sigma', sigma, 'muall', muall, 'X', X, ...
-    'pred', pred2, 'muinds', muinds, 'Htrue', Htrue, 'Hsubj', Hsubj, 'cp', swch);
 
 %save(['Data/Simulated_Raw/sim_' num2str(N) '_' num2str(sigma) '_' num2str(Htrue) '_' num2str(Hsubj) '_' num2str(index) '.mat'],'datastruct');
 
-save(sprintf('Data/Simulated_Raw/sim_%d_%d_%.2f_%.2f_%d.mat', N, sigma, Htrue, Hsubj, index),'datastruct')
+str_m = num2str(N, '%03.0f');
+str_sigma = num2str(sigma, '%03.0f');
+str_hTrue = num2str(Htrue*100, '%02.0f');
+str_hSubj = num2str(Hsubj*100, '%03.0f');
+str_index = num2str(index, '%02.0f');
+
+datastruct = struct('N', 50, 'sigma', sigma, 'muall', muall, 'X', X(1:50,:), ...
+    'pred', pred2(1:50), 'muinds', muinds(1:50), 'Htrue', Htrue, 'Hsubj', Hsubj, 'cp', swch(1:50));
+save(['Data/Simulated_Raw/sim050' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
+
+datastruct = struct('N', 100, 'sigma', sigma, 'muall', muall, 'X', X(1:100,:), ...
+    'pred', pred2(1:100), 'muinds', muinds(1:100), 'Htrue', Htrue, 'Hsubj', Hsubj, 'cp', swch(1:100));
+save(['Data/Simulated_Raw/sim100' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
+
+datastruct = struct('N', 150, 'sigma', sigma, 'muall', muall, 'X', X, ...
+    'pred', pred2, 'muinds', muinds, 'Htrue', Htrue, 'Hsubj', Hsubj, 'cp', swch);
+save(['Data/Simulated_Raw/sim150' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
 end
 
