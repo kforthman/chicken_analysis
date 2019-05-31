@@ -8,7 +8,7 @@
 
 sigma = [30,110,160];
 hTrue = [0.05,0.95];
-hSubj = 0:.05:1;
+hSubj = 0.05:.05:0.95;
 tick = 0;
 for index = 0:9
     for i = 1:length(sigma)
@@ -33,7 +33,7 @@ for index = 0:9
                     str_m = num2str(m(h), '%03.0f');
                     str_sigma = num2str(sigma(i), '%03.0f');
                     str_hTrue = num2str(hTrue(j)*100, '%02.0f');
-                    str_hSubj = num2str(hSubj(k)*100, '%03.0f');
+                    str_hSubj = num2str(hSubj(k)*100, '%02.0f');
                     str_index = num2str(index, '%02.0f');
                     
                     subjids{tick,1} = ['sim' str_m str_sigma str_hTrue str_hSubj str_index];

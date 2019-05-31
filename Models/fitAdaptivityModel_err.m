@@ -71,10 +71,11 @@ end
 
 
    % LogLR from predicted and actual choices
-   choicehat = lapse+(1-2*lapse)./(1+exp(-Lpost/noise));
+   choicehat = lapse+(1-2*lapse)./(1+exp(-Lprior/noise));
    % choicehat = 1./(1+exp(-Lpost));
    choice    = session_data(:,3);
-   e   = -sum((1-choice).*log(1-choicehat)) - sum(choice.*log(choicehat));
+   e = -sum(((1-choice).*log(1-choicehat))+(choice.*log(choicehat)));
+   %e   = -sum((1-choice).*log(1-choicehat)) - sum(choice.*log(choicehat));
    % e = -sum(((1-resp).*log(1-pc))+(resp.*log(pc))); %Cross entropy loss function (same as negative log likelihood)
    % e   = -sum( ((choice == choicehat)-.5)*2 .* log(abs(Lpost)) );
 

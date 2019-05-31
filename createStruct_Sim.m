@@ -34,24 +34,34 @@ for i = 1:N
     end
 end
 
+%%
+%   1. likelihood of x given left
+l_left = normpdf(x, muall(2,1)/2, sigma);
+%   2. likelihood of x given right
+l_right = normpdf(x, muall(1,1)/2, sigma);
+% LLRn represents the sensory evidence. LLRn is the log likelihood ratio
+% provided ny the star position on that trial.
+llr = log(l_left./l_right);
+
+%%
 % Now, based on the data above, the model will make a prediction of which chicken the egg came from.
 l = zeros(N,1);
 psi = zeros(N,1);
-llr = zeros(N,1);
+%llr = zeros(N,1);
 ll = @(this_x, this_mu, this_sigma) 0.5*(this_x - this_mu)^2/this_sigma^2 + 0.5*log(this_sigma^2);
 l(1) = 0;
 psi(1) = 0;
-llr(1) = 0;
+%llr(1) = 0;
 for n = 2:N
     psi(n) = l(n - 1) + ...
         log((1 - Hsubj)/Hsubj + exp(-l(n - 1))) - ...
         log((1 - Hsubj)/Hsubj + exp( l(n - 1)));
     
-    llr(n) = -2*...
-        (...
-        ll(x(n), muall(2,1), sigma) -...
-        ll(x(n), muall(1,1), sigma)...
-        );
+%     llr(n) = -2*...
+%         (...
+%         ll(x(n), muall(2,1), sigma) -...
+%         ll(x(n), muall(1,1), sigma)...
+%         );
     
     l(n) = psi(n) + llr(n);
 end
@@ -70,7 +80,7 @@ X = [x, y];
 str_m = num2str(N, '%03.0f');
 str_sigma = num2str(sigma, '%03.0f');
 str_hTrue = num2str(Htrue*100, '%02.0f');
-str_hSubj = num2str(Hsubj*100, '%03.0f');
+str_hSubj = num2str(Hsubj*100, '%02.0f');
 str_index = num2str(index, '%02.0f');
 
 datastruct = struct('N', 50, 'sigma', sigma, 'muall', muall, 'X', X(1:50,:), ...
