@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+#SBATCH --partition=c2_short
+#SBATCH --ntasks=1
+#SBATCH --mem=6000
+#SBATCH --nodes=1
+#SBATCH --output='/media/t1000/Analysis/kforthman/Chicken Task/Chicken_code/test.log'
+#SBATCH --error='/media/t1000/Analysis/kforthman/Chicken Task/Chicken_code/test.log.err'
+#SBATCH --job-name=chickSim
+#SBATCH --mail-type=NONE
+#SBATCH --workdir='/media/t1000/Analysis/kforthman/Chicken Task/Chicken_code/Models'
+#SBATCH --time=0-2
+#
+#################################################
+#to submit this to the scheduler, run:
+#sbatch < run_ChickenJob.ssub
+
+
+#to run an interactive terminal
+#srun -N 1 -c 4 --mem=24000 --pty --partition=c2_short /bin/bash
+
+module load matlab
+
+matlab -nodisplay -nosplash < fitAdaptivityModel.m

@@ -9,6 +9,11 @@ function fitAdaptivityModel(filename)
 %
 % Edited by Katherine Forthman 08.20.2018
 
+% For log
+t=datestr(now);
+fprintf(['\n\n\nRUN TIME:\n' t '\n\n\n'])
+error(sprintf(['\n\nRUN TIME:\n' t '\n\n\n\n']))
+
 %% Initialize values, parameters are:
 %   1. H_subjective
 %   2. noise in the decision variable (DV)
@@ -49,7 +54,7 @@ pcts         = nan(num_subjects, 1); % percent correct
 
 for ss = 1:num_subjects
     
-    disp(['Simulation ' num2str(ss)])
+    fprintf(['\n\nSimulation ' num2str(ss) '\n\n'])
     
     % get the data file
     data_filename = fullfile(raw_data_dir, file_list{ss});

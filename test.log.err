@@ -1,0 +1,38 @@
+
+The following have been reloaded with a version change:
+  1) matlab/2016a => matlab/2018a
+
+ function fitAdaptivityModel(filename)
+ |
+{Error: Function definition not supported in this context. Create functions in
+code file.
+} 
+{
+
+RUN TIME:
+31-May-2019 14:04:44
+} 
+{Undefined function or variable 'getIpOptions'.
+
+Error in fmincon (line 811)
+    options =
+    getIpOptions(options,sizes.nVar,mEq,flags.constr,defaultopt,10,0.01);
+} 
+{Error using nargin
+You can only call nargin/nargout from within a MATLAB function.
+} 
+{Undefined function or variable 'N'.
+} 
+{Undefined function or variable 'H_subj'.
+} 
+{Undefined function or variable 'H_true'.
+} 
+{To use 'sigma', the following product must be licensed, installed, and enabled:
+  Control System Toolbox
+} 
+{Undefined function or variable 'pct'.
+} 
+{Undefined function or variable 'N'.
+} 
+{Undefined function or variable 'finalTable'.
+} 

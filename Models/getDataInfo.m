@@ -13,7 +13,7 @@ function [fileList_, analysisDataDir_, rawDataDir_, sessionsPerSubject_] = ...
 %
 
 %% SET DATA DIRECTORY HERE
-dpath = '/Volumes/T1000/Analysis/kforthman/Chicken Task/Chicken_code/';
+dpath = '../';
 DATA_DIR          = fullfile(sprintf('%sData',dpath));
 ANALYSIS_DATA_DIR = fullfile(DATA_DIR, 'Simulated_Analysis');
 RAW_DATA_DIR      = fullfile(DATA_DIR, 'Simulated_Raw');
