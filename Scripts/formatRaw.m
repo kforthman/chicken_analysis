@@ -7,7 +7,7 @@
 pathFrom = '/Volumes/T1000/BehavioralTasks/MTURK/ChickenTask/data/tasks/data_for_katie/';
 
 % Designate the destination for the formated data
-pathTo = '/Volumes/T1000/kclary/Chicken Task/Chicken_code/Data/';
+pathTo = '/Volumes/T1000/kclary/Chicken Task/Chicken_code/Output/';
 
 % Pull the names of all csv files from the raw data directory
 rawFilenames = struct2table(dir([pathFrom '*.csv']));

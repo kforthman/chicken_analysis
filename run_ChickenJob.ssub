@@ -4,11 +4,11 @@
 #SBATCH --ntasks=1
 #SBATCH --mem=6000
 #SBATCH --nodes=1
-#SBATCH --output='/media/t1000/Analysis/kforthman/Chicken Task/Chicken_code/test.log'
-#SBATCH --error='/media/t1000/Analysis/kforthman/Chicken Task/Chicken_code/test.log.err'
+#SBATCH --output=/media/t1000/Analysis/kforthman/Chicken_Task/Chicken_code/Output/test.log
+#SBATCH --error=/media/t1000/Analysis/kforthman/Chicken_Task/Chicken_code/Output/test.log.err
 #SBATCH --job-name=chickSim
 #SBATCH --mail-type=NONE
-#SBATCH --workdir='/media/t1000/Analysis/kforthman/Chicken Task/Chicken_code/Models'
+#SBATCH --workdir=/media/t1000/Analysis/kforthman/Chicken_Task/Chicken_code/Scripts
 #SBATCH --time=0-2
 #
 #################################################

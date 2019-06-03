@@ -1,4 +1,4 @@
-data <- read.csv("/Volumes/T1000/Analysis/kforthman/Chicken Task/Chicken_code/Data/Analysis/adaptivityModelFits_stabilityTest.csv")
+data <- read.csv("/Volumes/T1000/Analysis/kforthman/Chicken_Task/Chicken_code/Output/Analysis/adaptivityModelFits_stabilityTest.csv")
 
 H_stability <- matrix(nrow = 0,ncol = 1)
 H_range <- matrix(nrow = 0,ncol = 1)
@@ -46,3 +46,4 @@ for(b in 1:6){
   abline(h[b], 0, col = "red")
   abline(0.5, 0, col = "blue")
 }
+

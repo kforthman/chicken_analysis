@@ -85,14 +85,14 @@ str_index = num2str(index, '%02.0f');
 
 datastruct = struct('N', 50, 'sigma', sigma, 'muall', muall, 'X', X(1:50,:), ...
     'pred', pred2(1:50), 'muinds', muinds(1:50), 'Htrue', Htrue, 'Hsubj', Hsubj, 'cp', swch(1:50));
-save(['Data/Simulated_Raw/sim050' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
+save(['../Data/Simulated_Raw/sim050' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
 
 datastruct = struct('N', 100, 'sigma', sigma, 'muall', muall, 'X', X(1:100,:), ...
     'pred', pred2(1:100), 'muinds', muinds(1:100), 'Htrue', Htrue, 'Hsubj', Hsubj, 'cp', swch(1:100));
-save(['Data/Simulated_Raw/sim100' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
+save(['../Data/Simulated_Raw/sim100' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
 
 datastruct = struct('N', 150, 'sigma', sigma, 'muall', muall, 'X', X, ...
     'pred', pred2, 'muinds', muinds, 'Htrue', Htrue, 'Hsubj', Hsubj, 'cp', swch);
-save(['Data/Simulated_Raw/sim150' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
+save(['../Data/Simulated_Raw/sim150' str_sigma str_hTrue str_hSubj str_index '.mat'],'datastruct')
 end
 

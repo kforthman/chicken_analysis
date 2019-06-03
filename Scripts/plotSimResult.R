@@ -1,5 +1,5 @@
 library(ggplot2)
-simFits <- read.csv("/Volumes/T1000/Analysis/kforthman/Chicken Task/Chicken_code/Data/Simulated_Analysis/adaptivityModelFits.csv")
+simFits <- read.csv("/Volumes/T1000/Analysis/kforthman/Chicken_Task/Chicken_code/Output/Simulated_Analysis/adaptivityModelFits.csv")
 
 simFits$pct <- simFits$pct/100
 

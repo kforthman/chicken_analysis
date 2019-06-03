@@ -15,7 +15,8 @@ function [fileList_, analysisDataDir_, rawDataDir_, sessionsPerSubject_] = ...
 %% SET DATA DIRECTORY HERE
 dpath = '../';
 DATA_DIR          = fullfile(sprintf('%sData',dpath));
-ANALYSIS_DATA_DIR = fullfile(DATA_DIR, 'Simulated_Analysis');
+OUT_DIR          = fullfile(sprintf('%sOutput',dpath));
+ANALYSIS_DATA_DIR = fullfile(OUT_DIR, 'Simulated_Analysis');
 RAW_DATA_DIR      = fullfile(DATA_DIR, 'Simulated_Raw');
 FILENAME          = 'dataInfo.mat';
 

@@ -46,4 +46,4 @@ for index = 0:9
 end
 
 
-save('Data/Simulated_Analysis/subj_info.mat','subjids')
+save('../Output/Simulated_Analysis/subj_info.mat','subjids')
