@@ -16,8 +16,8 @@ function [fileList_, analysisDataDir_, rawDataDir_, sessionsPerSubject_] = ...
 dpath = '../';
 DATA_DIR          = fullfile(sprintf('%sData',dpath));
 OUT_DIR          = fullfile(sprintf('%sOutput',dpath));
-ANALYSIS_DATA_DIR = fullfile(OUT_DIR, 'Simulated_Analysis');
-RAW_DATA_DIR      = fullfile(DATA_DIR, 'Simulated_Raw');
+ANALYSIS_DATA_DIR = fullfile(OUT_DIR, 'Simulated_nl_Analysis');
+RAW_DATA_DIR      = fullfile(DATA_DIR, 'Simulated_nl_Raw');
 FILENAME          = 'dataInfo.mat';
 
 %% possibly just load pre-computed list

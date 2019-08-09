@@ -12,7 +12,7 @@ function fitAdaptivityModel(filename)
 % For log
 t=datestr(now);
 fprintf(['\n\n\nRUN TIME:\n' t '\n\n\n'])
-error(sprintf(['\n\nRUN TIME:\n' t '\n\n\n\n']))
+%error(sprintf(['\n\nRUN TIME:\n' t '\n\n\n\n']), do not quit)
 
 %% Initialize values, parameters are:
 %   1. H_subjective
@@ -51,6 +51,14 @@ num_subjects = length(file_list);
 fits         = nan(num_subjects, size(inits, 2));
 LLRs         = nan(num_subjects, 1);
 pcts         = nan(num_subjects, 1); % percent correct
+
+N      = cell(num_subjects, 1);
+H_true = cell(num_subjects, 1);
+H_subj = cell(num_subjects, 1);
+lapse  = cell(num_subjects, 1);
+noise  = cell(num_subjects, 1);
+sigma  = cell(num_subjects, 1);
+pct    = cell(num_subjects, 1);
 
 for ss = 1:num_subjects
     
@@ -109,11 +117,14 @@ for ss = 1:num_subjects
     options = optimoptions(@fmincon,'Algorithm','interior-point');
     fits(ss,:) = ...
         fmincon(myFun, inits, [], [], [], [], lb, ub, [], options);
+    disp(fits(ss,:))
     
     
     N{ss} = data.N;
     H_true{ss} = data.Htrue;
     H_subj{ss} = data.Hsubj;
+    lapse{ss} = data.lapse;
+    noise{ss} = data.noise;
     sigma{ss}  = data.sigma;
     pct{ss}    = (ctmp(2)/ctmp(3))*100;
 end
@@ -121,8 +132,8 @@ end
 
 
 H_subj_EST = fits(:,1);
-noise_in_DV = fits(:,2);
-lapse_rate = fits(:,3);
+noise_EST = fits(:,2);
+lapse_EST = fits(:,3);
 
 % Save it
 if nargin<1 || (nargin>=1 && ~ischar(filename))
@@ -131,11 +142,13 @@ if nargin<1 || (nargin>=1 && ~ischar(filename))
     filename3 = 'percentCorrect.csv';
 end
 
-N = N.';
-H_subj = H_subj.';
-H_true = H_true.';
-sigma = sigma.';
-pct = pct.';
+%N = N.';
+%H_subj = H_subj.';
+%H_true = H_true.';
+%lapse = lapse.';
+%noise = noise.';
+%sigma = sigma.';
+%pct = pct.';
 
-finalTable = table(subID,N,sigma,H_true,H_subj,H_subj_EST,noise_in_DV,lapse_rate,pct);
+finalTable = table(subID,N,sigma,H_true,H_subj,H_subj_EST,noise,lapse,noise_EST,lapse_EST,pct);
 writetable(finalTable, fullfile(analysis_data_dir, filename1))

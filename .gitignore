@@ -10,3 +10,9 @@ Icon
 *.m~
 
 Data
+
+Figures/Simulation_Results
+
+Output/test.log
+
+Output/test.log.err

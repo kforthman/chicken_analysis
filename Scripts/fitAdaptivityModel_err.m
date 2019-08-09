@@ -41,7 +41,7 @@ lapse = params(3);
 
 % LLRn represents the sensory evidence. LLRn is the log likelihood ratio
 % provided ny the star position on that trial.
-LLR = log(session_data(:,1)./session_data(:,2));
+LLR = log(session_data(:,1)./session_data(:,2)); %right/left
 
 % H is altered to simplify the equation.
 % it represents (1-H)/H
