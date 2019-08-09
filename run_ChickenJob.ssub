@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --partition=c2_short
+#SBATCH --partition=c2_cpu
 #SBATCH --ntasks=1
 #SBATCH --mem=6000
 #SBATCH --nodes=1
@@ -9,7 +9,7 @@
 #SBATCH --job-name=chickSim
 #SBATCH --mail-type=NONE
 #SBATCH --workdir=/media/t1000/Analysis/kforthman/Chicken_Task/Chicken_code/Scripts
-#SBATCH --time=0-2
+#SBATCH --time=3-0
 #
 #################################################
 #to submit this to the scheduler, run:
@@ -19,6 +19,7 @@
 #to run an interactive terminal
 #srun -N 1 -c 4 --mem=24000 --pty --partition=c2_short /bin/bash
 
-module load matlab
+module load matlab/2018a
 
-matlab -nodisplay -nosplash < fitAdaptivityModel.m
+matlab -nodisplay -nosplash < generateSimData.m
+matlab -nodisplay -nosplash < runMe.m
